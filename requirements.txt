@@ -2,11 +2,6 @@ playwright
 playwright-stealth
 xata
 pandas
-<<<<<<< HEAD
 langchain-ollama >=0.3,<0.4
 langchain-core >=0.3,<0.4
 spacy
-=======
-langchain-ollama
-langchain-core
->>>>>>> c03243f (Initial)

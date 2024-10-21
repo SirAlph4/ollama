@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 from xata.client import XataClient
 import pandas as pd
@@ -7,6 +8,16 @@ load_dotenv()
 
 
 client = XataClient(db_url=os.environ.get('REDACTED_DB_URL'), api_key=os.environ.get('XATA_API_KEY'))
+=======
+REDACTED_DB_URL="https://SirAlph4-s-workspace-2kknuo.eu-central-1.xata.sh/db/my_Database"
+WORKSPACE = "SirAlph4-s-workspace-2kknuo"
+HTTP_ENDPOINT ="https://SirAlph4-s-workspace-2kknuo.eu-central-1.xata.sh/db/my_Database:main"
+XATA_API_KEY="xau_Q0e0PlEuAb6hFxcgMuzOmMFvPleUaqes0"
+from xata.client import XataClient
+import pandas as pd
+import os
+client = XataClient(db_url=REDACTED_DB_URL, api_key=XATA_API_KEY)
+>>>>>>> c03243f (Initial)
 column = [
         "xata_id",
         "CARDINAL",

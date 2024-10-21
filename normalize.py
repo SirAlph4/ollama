@@ -1,112 +1,115 @@
 import pandas as pd
 import ast
 
-# Sample data, assuming it's already loaded into Python from Power BI or a CSV
-df = pd.read_csv("Webscrape.csv", sep=";")
+# Read the input CSV file
+df = pd.read_csv("csv/NER_extracted2.csv", 
+                 sep="␟",
+                 engine='python',
+                 encoding='utf-8')
 
-# Function to safely evaluate string representations of lists
+# Define all entity columns to process
+ENTITY_COLUMNS = [
+    'ORG', 'EVENT', 'FAC', 'GPE', 'LANGUAGE', 'LAW',
+    'LOC', 'NORP', 'PERSON', 'PRODUCT', 'WORK_OF_ART', 'categories',
+    'INDUSTRY_SECTOR', 'MARKET_TREND', 'INVESTMENT_TYPE', 
+    'TECHNOLOGY_CATEGORY', 'EMPLOYMENT'
+]
+# Function to convert string representations of lists to actual lists
 def safe_eval(x):
-    try:
-        return ast.literal_eval(x)
-    except:
-        return [x]
+    return ast.literal_eval(x) if isinstance(x, str) else [x]
 
-df['ORG'] = df['ORG'].apply(safe_eval)
-df['CARDINAL'] = df['CARDINAL'].apply(safe_eval)
-df['DATE'] = df['DATE'].apply(safe_eval)
-df['EVENT'] = df['EVENT'].apply(safe_eval)
-df['FAC'] = df['FAC'].apply(safe_eval)
-df['GPE'] = df['GPE'].apply(safe_eval)
-df['LANGUAGE'] = df['LANGUAGE'].apply(safe_eval)
-df['LAW'] = df['LAW'].apply(safe_eval)
-df['LOC'] = df['LOC'].apply(safe_eval)
-df['MONEY'] = df['MONEY'].apply(safe_eval)
-df['NORP'] = df['NORP'].apply(safe_eval)
-df['ORDINAL'] = df['ORDINAL'].apply(safe_eval)
-df['PERSON'] = df['PERSON'].apply(safe_eval)
-df['PRODUCT'] = df['PRODUCT'].apply(safe_eval)
-df['QUANTITY'] = df['QUANTITY'].apply(safe_eval)
-df['TIME'] = df['TIME'].apply(safe_eval)
-df['WORK_OF_ART'] = df['WORK_OF_ART'].apply(safe_eval)
-df['PERCENT'] = df['PERCENT'].apply(safe_eval)
-df["WORK_OF_ART"] = df["WORK_OF_ART"].apply(safe_eval)
-cardinal_df = pd.DataFrame(columns=["CARDINAL", "ID"])
-date_df = pd.DataFrame(columns=["DATE", "ID"])
-event_df = pd.DataFrame(columns=["EVENT", "ID"])
-fac_df = pd.DataFrame(columns=["FAC", "ID"])
-gpe_df = pd.DataFrame(columns=["GPE", "ID"])
-language_df = pd.DataFrame(columns=["LANGUAGE", "ID"])
-law_df = pd.DataFrame(columns=["LAW", "ID"])
-loc_df = pd.DataFrame(columns=["LOC", "ID"])
-money_df = pd.DataFrame(columns=["MONEY", "ID"])
-norp_df = pd.DataFrame(columns=["NORP", "ID"])
-ordinal_df = pd.DataFrame(columns=["ORDINAL", "ID"])
-org_df = pd.DataFrame(columns=["ORG", "ID"])
-person_df = pd.DataFrame(columns=["PERSON", "ID"])
-product_df = pd.DataFrame(columns=["PRODUCT", "ID"])
-quantity_df = pd.DataFrame(columns=["QUANTITY", "ID"])
-time_df = pd.DataFrame(columns=["TIME", "ID"])
-work_of_art_df = pd.DataFrame(columns=["WORK_OF_ART", "ID"])
-percent_df = pd.DataFrame(columns=["PERCENT", "ID"])
-catagoriez_df = pd.DataFrame(columns=["categories", "ID"])
-df["categories"] = df["categories"].apply(safe_eval)
-for index, row in df.iterrows():
-    ID = row["ID"]
-    for org in row["ORG"]:
-        org_df.loc[len(org_df)] =  {"ORG": org, "ID": ID}
-    for cardinal in row["CARDINAL"]:
-        cardinal_df.loc[len(cardinal_df)] =  {"CARDINAL": cardinal, "ID": ID}
-    for date in row["DATE"]:
-        date_df.loc[len(date_df)] =  {"DATE": date, "ID": ID}
-    for event in row["EVENT"]:
-        event_df.loc[len(event_df)] =  {"EVENT": event, "ID": ID}
-    for fac in row["FAC"]:
-        fac_df.loc[len(fac_df)] =  {"FAC": fac, "ID": ID}
-    for gpe in row["GPE"]:
-        gpe_df.loc[len(gpe_df)] =  {"GPE": gpe, "ID": ID}
-    for language in row["LANGUAGE"]:
-        language_df.loc[len(language_df)] =  {"LANGUAGE": language, "ID": ID}
-    for law in row["LAW"]:
-        law_df.loc[len(law_df)] =  {"LAW": law, "ID": ID}
-    for loc in row["LOC"]:
-        loc_df.loc[len(loc_df)] =  {"LOC": loc, "ID": ID}
-    for money in row["MONEY"]:
-        money_df.loc[len(money_df)] =  {"MONEY": money, "ID": ID}
-    for norp in row["NORP"]:
-        norp_df.loc[len(norp_df)] =  {"NORP": norp, "ID": ID}
-    for ordinal in row["ORDINAL"]:
-        ordinal_df.loc[len(ordinal_df)] =  {"ORDINAL": ordinal, "ID": ID}
-    for person in row["PERSON"]:
-        person_df.loc[len(person_df)] =  {"PERSON": person, "ID": ID}
-    for product in row["PRODUCT"]:
-        product_df.loc[len(product_df)] =  {"PRODUCT": product, "ID": ID}
-    for quantity in row["QUANTITY"]:
-        quantity_df.loc[len(quantity_df)] =  {"QUANTITY": quantity, "ID": ID}
-    for time in row["TIME"]:
-        time_df.loc[len(time_df)] =  {"TIME": time, "ID": ID}
-    for percent in row["PERCENT"]:
-        percent_df.loc[len(percent_df)] =  {"PERCENT": percent, "ID": ID}
-    # for work_of_art in row["WORK_OF_ART"]:
-    #     work_of_art_df.loc[len(work_of_art_df)] =  {"WORK_OF_ART": work_of_art, "ID": ID}
-    for catagoriez in row["categories"]:
-        catagoriez_df.loc[len(catagoriez_df)] =  {"categories": catagoriez, "ID": ID}
+# Convert all entity columns from string representations to lists
+for column in ENTITY_COLUMNS:
+    df[column] = df[column].apply(safe_eval)
 
-org_df.to_csv("org_normalized.csv", index=False, sep=";")
-cardinal_df.to_csv("cardinal_normalized.csv", index=False, sep=";")
-date_df.to_csv("date_normalized.csv", index=False, sep=";")
-event_df.to_csv("event_normalized.csv", index=False, sep=";")
-fac_df.to_csv("fac_normalized.csv", index=False, sep=";")
-gpe_df.to_csv("gpe_normalized.csv", index=False, sep=";")
-language_df.to_csv("language_normalized.csv", index=False, sep=";")
-law_df.to_csv("law_normalized.csv", index=False, sep=";")
-loc_df.to_csv("loc_normalized.csv", index=False, sep=";")
-money_df.to_csv("money_normalized.csv", index=False, sep=";")
-norp_df.to_csv("norp_normalized.csv", index=False, sep=";")
-ordinal_df.to_csv("ordinal_normalized.csv", index=False, sep=";")
-person_df.to_csv("person_normalized.csv", index=False, sep=";")
-product_df.to_csv("product_normalized.csv", index=False, sep=";")
-quantity_df.to_csv("quantity_normalized.csv", index=False, sep=";")
-time_df.to_csv("time_normalized.csv", index=False, sep=";")      
-work_of_art_df.to_csv("work_of_art_normalized.csv", index=False, sep=";")
-percent_df.to_csv("percent_normalized.csv", index=False, sep=";")
-catagoriez_df.to_csv("catagoriez_normalized.csv", index=False, sep=";")
+# Create normalized dataframes and lookup tables for each entity type
+normalized_dfs = {}
+lookup_dfs = {}
+
+for column in ENTITY_COLUMNS:
+    # Explode the lists into separate rows
+    temp_df = df[['ID', column]].explode(column)
+    temp_df = temp_df.drop_duplicates(subset=['ID', column])
+    
+    # Filter out empty or null values and reset index
+    temp_df = temp_df[temp_df[column].notna()]
+    temp_df = temp_df.reset_index(drop=True)
+    
+    # Create lookup table with unique values and their IDs
+    unique_values = pd.DataFrame(temp_df[column].unique(), columns=[column])
+    unique_values[f'{column}ID'] = range(1, len(unique_values) + 1)
+    
+    # Create mapping DataFrame
+    mapped_df = temp_df.merge(unique_values, on=column, how='left')
+    mapped_df = mapped_df[['ID', f'{column}ID']]
+    
+    # Store both DataFrames
+    normalized_dfs[column] = mapped_df
+    lookup_dfs[column] = unique_values
+
+# Save all normalized dataframes and lookup tables to CSV files
+for entity_type, normalized_df in normalized_dfs.items():
+    # Save mapping file (ID to EntityID)
+    mapping_filename = f"csv/normalized/{entity_type.lower()}_id_mapping.csv"
+    normalized_df.to_csv(mapping_filename, index=False, sep="␟")
+    
+    # Save lookup file (EntityID to EntityValue)
+    lookup_filename = f"csv/normalized/{entity_type.lower()}_lookup.csv"
+    lookup_dfs[entity_type].to_csv(lookup_filename, index=False, sep="␟")# Save all normalized dataframes to CSV files
+
+
+
+def extract_number_and_description(text):
+    if pd.isna(text):
+        return pd.NA, pd.NA
+    
+    text = str(text)
+    # Split by opening parenthesis
+    parts = text.split('(', 1)
+    
+    if len(parts) == 2:
+        number = parts[0].strip()
+        # Remove closing parenthesis from description
+        description = parts[1].rstrip(')').strip()
+        return number, description
+    return text.strip(), ''
+
+S_ENTITY_COLUMNS = [
+    'CARDINAL', 'ORDINAL', 'QUANTITY', 'PERCENT', 'MONEY', 'POSITION', 'TIME', "DATE"
+]
+
+# Convert all entity columns from string representations to lists
+for column in S_ENTITY_COLUMNS:
+    df[column] = df[column].apply(safe_eval)
+
+normalized_dfs = {}
+for column in S_ENTITY_COLUMNS:
+    # Explode the lists into separate rows
+    temp_df = df[['ID', column]].explode(column)
+    
+    # Store the original value before splitting
+    temp_df['original_value'] = temp_df[column]
+    
+    # Extract number and description row by row
+    extracted_data = temp_df[column].apply(extract_number_and_description)
+    temp_df[f'{column}_value'] = extracted_data.apply(lambda x: x[0])
+    temp_df[f'{column}_description'] = extracted_data.apply(lambda x: x[1])
+    
+    # Drop duplicates after all values are extracted
+    temp_df = temp_df.drop_duplicates(subset=['ID', 'original_value'])
+    
+    # Filter out empty or null values
+    temp_df = temp_df[temp_df[column].notna()]
+    
+    # Reset index
+    temp_df = temp_df.reset_index(drop=True)
+    
+    # Store the normalized dataframe
+    normalized_dfs[column] = temp_df
+
+# Save all normalized dataframes to CSV files
+for entity_type, normalized_df in normalized_dfs.items():
+    output_filename = f"csv/normalized/{entity_type.lower()}_normalized.csv"
+    columns_to_save = ['ID', 'original_value', f'{entity_type}_value', f'{entity_type}_description']
+    normalized_df[columns_to_save].to_csv(output_filename, index=False, sep="␟", 
+                                        header=[entity_type, entity_type, f'{entity_type}_value', f'{entity_type}_description'])

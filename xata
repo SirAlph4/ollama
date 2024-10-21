@@ -1,0 +1,17 @@
+import os
+from xata.client import XataClient
+from dotenv import load_dotenv
+import json
+load_dotenv()
+client = XataClient(db_url=os.environ.get('REDACTED_DB_URL'), api_key=os.environ.get('XATA_API_KEY'))
+
+with open('article_urls.json', 'r') as f:
+    article_urls = json.load(f)
+i = 1000000
+for urls in article_urls['0'].values():
+    for url in urls:
+        i += 1
+        print(url)
+        client.records().insert("Urls", {"url": url,
+                                        "ID": i,
+                                        })

@@ -2,6 +2,6 @@ playwright
 playwright-stealth
 xata
 pandas
-langchain-ollama >=0.3,<0.4
+langchain-ollama
 langchain-core >=0.3,<0.4
 spacy

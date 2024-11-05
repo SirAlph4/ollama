@@ -1,5 +1,6 @@
 from xata.client import XataClient
 import spacy
+from spacytextblob.spacytextblob import SpacyTextBlob
 
 # Load the transformer-based NER model
 nlp = spacy.load("en_core_web_trf")
@@ -102,6 +103,15 @@ for label, entities in unique_entities.items():
     print(f"{label}: {entities}")
 
 for i in range(1005254, 1005522, 1):
+    result = client.data().query("Articles", query_params)
+    record_dict = result["records"][0]
+    text = record_dict["article_text"]
+    nlp.add_pipe('spacytextblob')
+    doc = nlp(text)
+    sen = doc._.blob.sentiment                           # Sentiment: -0.125
+    pol = doc._.blob.polarity                            # Polarity: -0.125
+    sub = doc._.blob.subjectivity                        # Subjectivity: 0.9
+
     entity_dict = {
       "PERSON": [],        # People, including fictional.
       "NORP": [],          # Nationalities or religious or political groups.
@@ -120,16 +130,17 @@ for i in range(1005254, 1005522, 1):
       "MONEY": [],         # Monetary values, including unit.
       "QUANTITY": [],      # Measurements, as of weight or distance.
       "ORDINAL": [],       # “first”, “second”, etc.
-      "CARDINAL": []       # Numerals that do not fall under another type.
+      "CARDINAL": [],      # Numerals that do not fall under another type.
+      "SENTIMENT": sen,
+      "POLARITY": pol,
+      "SUBJECTIVITY": sub,
     }
     query_params = {
         "filter": {
             "ID": i
         }
     }
-    result = client.data().query("Articles", query_params)
-    record_dict = result["records"][0]
-    text = record_dict["article_text"]
+
     del record_dict['xata']
     del record_dict['id']
 

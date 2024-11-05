@@ -25,7 +25,6 @@ LAW: Regulatory factors (e.g., Emissions Standards).
 MARKET_TREND: Trends affecting the market (e.g., Electrification).
 POSITION: Roles and associated persons (e.g., "Elon Musk (CEO of Tesla)").
 SUMMARY: A concise summary in under 25 words.
-SENTIMENT: Sentiment score (0-1000), with 0-200 as strongly negative, and 801-1000 as strongly positive.
 EMPLOYMENT: Integer for layoffs (negative) or hires (positive).
 
 ## SpaCy Entity Clarifications:
@@ -55,7 +54,6 @@ Provide your response as a JSON object wrapped in triple backticks (```). Use th
   "MARKET_TREND": ["Market Trend"],
   "POSITION": ["Role in Organization (Person Name or Organization Name(s))"],
   "SUMMARY": "concise summary of the key insights from the article in under 25 words.",
-  "SENTIMENT":505,
   "EMPLOYMENT": 500,
   "Empty_Label": null,
   "Spacy_placeholder1": ["placeHolder1"],
@@ -78,7 +76,6 @@ Output:
   "MARKET_TREND": ["Electric Pickup Market Competition"],
   "POSITION": ["Tesla CEO (Elon Musk)"],  
   "SUMMARY": "Tesla announces Cybertruck production starting next month, intensifying electric pickup market competition.",
-  "SENTIMENT": 647
 }
 
 ```
@@ -91,7 +88,6 @@ Output:
   "INDUSTRY_SECTOR": ["Automotive"],
   "LAW": ["Safety Regulations"],
   "SUMMARY": "Volkswagen recalls certain Atlas and Atlas Cross Sport vehicles due to a brake defect, affecting 1467 cars.",
-  "SENTIMENT": 235,
   "CARDINAL": ["1467 (vehicles affected by the recall)"],
   "GPE": ["Chattanooga"],
   "ORG": ["Volkswagen Group of America, Inc.", "National Highway Traffic Safety Administration"]
@@ -110,7 +106,6 @@ Output:
   "MARKET_TREND": ["Tech Industry Layoffs", "Funding Downturn", "Financial Inclusion"],
   "POSITION": ["Investors in CapWay (Y Combinator and Fearless Fund)"],
   "SUMMARY": "Tech industry continues to face layoffs in 2024, with over 87000 job cuts reported across various sectors including AI, e-commerce, and fintech.",
-  "SENTIMENT": 50,
   "EMPLOYMENT": -87836,
   "ORG": ["Crunchbase", "Meta", "Google", "Microsoft", "Grabango", "Aldi", "7-Eleven", "Circle K", "Chevron", "Amazon", "GoWild", "CapWay", "Fable", "Nikola Motor Co.", "CareerBuilder", "Monster", "Gigamon", "Anthropic"],
   "GPE": ["U.S.", "Berkeley", "California", "Louisville", "Kentucky", "Atlanta", "New York"],
@@ -126,7 +121,6 @@ Output:
   "INDUSTRY_SECTOR": ["Automotive", "Brake Industry"],
   "MARKET_TREND": ["Urban Development Initiative in Tokyo's Nihonbashi District"],
   "SUMMARY": "Akebono relocates its Global Head Office to PMO Nihonbashi Muromachi, focusing on cost-cutting and remote work capabilities.",
-  "SENTIMENT": 621,
   "CARDINAL": ["8534 (Chuo-ku, Tokyo)", "7621 (New postal code)", "7630 (Old postal code)"],
   "FAC": ["Metropolitan Expressway's Nihonbashi section"],
   "GPE": ["Nihonbashi district", "Tokyo", "Japan"],

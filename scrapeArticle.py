@@ -82,5 +82,5 @@ async def random_sleep( min_seconds, max_seconds):
     await asyncio.sleep(random.uniform(min_seconds, max_seconds))
 
 if __name__ == "__main__":
-    for i in range(1000651, 1005971):
+    for i in range(1000000, 1005971):
         asyncio.run(start_scraping(i))
